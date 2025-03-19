@@ -67,7 +67,7 @@ const DataCapture: React.FC = () => {
             "State High Courts",
             "Director Background",
           ].map((crawl, index) => (
-            <div key={index} className="flex text-sm bg-white items-center px-2 py-2 rounded-md shadow-sm">
+            <div key={index} className="flex text-sm bg-white items-center px-1 py-2 rounded-md shadow-sm">
               <span className="text-lg text-green-700 px-2"><FaCheckSquare /></span>
               <span>{crawl}</span>
             </div>

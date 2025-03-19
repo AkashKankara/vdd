@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
   const router = useRouter();
 
   return (
-    <div className="fixed top-16 left-0 h-[calc(100vh-64px)] w-15 bg-gray-200 text-gray-700 flex flex-col items-center py-6 space-y-6 shadow-lg">
+    <div className="fixed top-16 left-0 h-[calc(100vh-64px)] w-15 bg-gray-100 text-gray-700 flex flex-col items-center py-6 space-y-6 shadow-lg">
       {menuItems.map((item, index) => (
         <div
           key={index}
