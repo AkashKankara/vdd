@@ -2,7 +2,7 @@
 
 import React from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { Card, CardContent } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 const data = [
   { points: "< 15 Points", vendors: 100 },
   { points: "< 20 Points", vendors: 150 },
@@ -13,18 +13,12 @@ const data = [
 
 const TopVendors = () => {
   return (
-    // <div className="p-2 flex shadow-md rounded-lg bg-gray-100 border border-gray-400 w-full max-w-md">
-      
-    //   <BarChart width={500} height={250} data={data} layout="vertical">
-    //     <YAxis type="category" dataKey="points" />
-    //     <XAxis type="number" />
-    //     <Tooltip />
-    //     <Legend />
-    //     <Bar dataKey="vendors" fill="#28a745" />
-    //   </BarChart>
-    // </div>
+
     <Card sx={{ p: 1, width: "100%", maxWidth: 500, boxShadow: 3, borderRadius: 2, backgroundColor: "#F5F5F5" }}>
       <CardContent>
+      <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
+        Top 10 Non Risk Vendors 
+      </Typography>
         <ResponsiveContainer width={400} height={220}>
           <BarChart data={data} layout="vertical">
             <YAxis 

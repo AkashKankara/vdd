@@ -2,6 +2,8 @@
 
 import dynamic from 'next/dynamic';
 
+import AlertBox from '@/components/AlertBox';
+
 const VendorStatus = dynamic(() => import('@/charts/VendorStatus'), { ssr: false });
 const RiskVendorsTrend = dynamic(() => import('@/charts/RiskVendorsTrend'), { ssr: false });
 const TopVendors = dynamic(() => import('@/charts/TopVendors'), { ssr: false });
@@ -23,16 +25,22 @@ export default function Dashboard() {
           <DepartmentRequest />
         </div>
   
-        <div className="p-1 flex flex-col">
+        {/* <div className="p-1 flex flex-col">
           <h2 className="text-lg font-semibold">High Risk Vendors Trend</h2>
           <RiskVendorsTrend />
+        </div> */}
+
+        <div className='p-1 flex flex-col'>
+          <AlertBox />
         </div>
-  
-        <div>
+
+        {/* <div className='p-1 flex flex-col'>
           <TopVendors />
-        </div>
+        </div> */}
       </div>
     </div>
   );
   
 }
+
+

@@ -6,16 +6,16 @@ import { Box, Typography, Card, Grid } from "@mui/material";
 
 // Data for Vendor Type Pie Chart
 const vendorTypeData = [
-  { name: "Non Govt Vendors", value: 82, color: "#1F3A93" }, // Dark Blue
-  { name: "Govt Vendors", value: 18, color: "#B4850B" }, // Yellow-Brown
+  { name: "Non Govt Vendors", value: 82, color: "#2F4C71" }, // Dark Blue
+  { name: "Govt Vendors", value: 18, color: "#C59B11" }, // Yellow-Brown
 ];
 
 // Data for Risk Level Pie Chart
 const riskLevelData = [
-  { name: "No Risk", value: 928, color: "#28a745", trend: "▲" },
-  { name: "Medium Risk", value: 414, color: "#ffc107", trend: "▼" },
-  { name: "High Risk", value: 112, color: "#dc3545", trend: "▲" },
-  { name: "Blacklisted", value: 21, color: "#6c757d", trend: "" },
+  { name: "No Risk", value: 928, color: "#18A02F", trend: "▲" },
+  { name: "Medium Risk", value: 414, color: "#E09B06", trend: "▼" },
+  { name: "High Risk", value: 112, color: "#B40101", trend: "▲" },
+  { name: "Blacklisted", value: 21, color: "#B7B7B7", trend: "" },
 ];
 
 // Custom Label for Vendor Type Pie Chart
@@ -37,7 +37,7 @@ const VendorStatus = () => {
   const onPieEnter = useCallback((_, index) => setActiveIndex(index), []);
 
   return (
-    <Card sx={{ p: 1, width: "100%", maxWidth: 500, boxShadow: 3, borderRadius: 2, backgroundColor: "#F5F5F5" }}>
+    <Card sx={{ p: 1, width: "100%", maxWidth: 500, boxShadow: 3, borderRadius: 2, backgroundColor: "#FBFBFB" }}>
 
       {/* Charts Side by Side */}
       <Grid container spacing={0} alignItems="center">
