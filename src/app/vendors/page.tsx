@@ -10,7 +10,7 @@ export default function VendorsPage() {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <main className="flex h-screen pt-12 pl-8">
+    <main className="flex h-screen pt-14 pl-14">
      
       <div className="flex-1 flex flex-col">
      

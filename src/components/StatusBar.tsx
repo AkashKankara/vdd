@@ -5,6 +5,7 @@ import { FaInfoCircle, FaBug, FaShieldAlt, FaClipboardCheck, FaUserCheck } from 
 import { IoCheckmark } from "react-icons/io5";
 import Initiate from "./Initiate";
 import DataCapture from "./DataCapture";
+import Assess from "./Assess";
 
 interface StatusBarProps {
     activeStep: string;
@@ -20,7 +21,7 @@ interface Step {
 const steps: Step[] = [
   { name: "Initiate", icon: <FaInfoCircle size={14} />, component: <Initiate/> },
   { name: "Data Capture", icon: <FaBug size={14} />, component: <DataCapture/> },
-  { name: "Assess", icon: <FaShieldAlt size={14} />, component: <div>Assess Content</div> },
+  { name: "Assess", icon: <FaShieldAlt size={14} />, component: <Assess/> },
   { name: "Review", icon: <FaClipboardCheck size={14} />, component: <div>Review Content</div> },
   { name: "Finalize", icon: <FaUserCheck size={14} />, component: <div>Finalize Content</div> },
 ];
