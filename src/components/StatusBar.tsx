@@ -6,7 +6,7 @@ import { IoCheckmark } from "react-icons/io5";
 import Initiate from "./Initiate";
 import DataCapture from "./DataCapture";
 import Assess from "./Assess";
-
+import Review from "./Review";
 interface StatusBarProps {
     activeStep: string;
     setActiveStep: (step: string) => void;
@@ -22,8 +22,8 @@ const steps: Step[] = [
   { name: "Initiate", icon: <FaInfoCircle size={14} />, component: <Initiate/> },
   { name: "Data Capture", icon: <FaBug size={14} />, component: <DataCapture/> },
   { name: "Assess", icon: <FaShieldAlt size={14} />, component: <Assess/> },
-  { name: "Review", icon: <FaClipboardCheck size={14} />, component: <div>Review Content</div> },
-  { name: "Finalize", icon: <FaUserCheck size={14} />, component: <div>Finalize Content</div> },
+  { name: "Review", icon: <FaClipboardCheck size={14} />, component: <Review/> },
+  { name: "Finalize", icon: <FaUserCheck size={14} />, component: <Review/> },
 ];
 
 const StatusBar: React.FC<StatusBarProps> = ({ activeStep, setActiveStep }) => {
