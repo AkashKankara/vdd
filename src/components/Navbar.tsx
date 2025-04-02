@@ -16,7 +16,7 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   { icon: <GoHomeFill />, name: "Dashboard", route: "/dashboard" },
   { icon: <FaUsers />, name: "Vendors", route: "/vendors" },
-  { icon: <LuCalendarClock />, name: "Schedule Due Diligence", route: "/schedule-dd" },
+  { icon: <LuCalendarClock />, name: "Schedule Due Diligence", route: "/Schedule-Flow" },
   { icon: <FaFolderPlus />, name: "New Due Diligence", route: "/new-due-diligence" },
 ];
 
