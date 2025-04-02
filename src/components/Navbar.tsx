@@ -2,7 +2,9 @@
 
 import React, { JSX }  from "react";
 import { useRouter } from "next/navigation";
-import { FaHome, FaUsers, FaCalendarCheck, FaFolderPlus } from "react-icons/fa";
+import { GoHomeFill } from "react-icons/go";
+import { LuCalendarClock } from "react-icons/lu";
+import { FaUsers, FaFolderPlus } from "react-icons/fa";
 
 
 interface MenuItem {
@@ -12,9 +14,9 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { icon: <FaHome />, name: "Dashboard", route: "/dashboard" },
+  { icon: <GoHomeFill />, name: "Dashboard", route: "/dashboard" },
   { icon: <FaUsers />, name: "Vendors", route: "/vendors" },
-  { icon: <FaCalendarCheck />, name: "Schedule Due Diligence", route: "/schedule-dd" },
+  { icon: <LuCalendarClock />, name: "Schedule Due Diligence", route: "/schedule-dd" },
   { icon: <FaFolderPlus />, name: "New Due Diligence", route: "/new-due-diligence" },
 ];
 
@@ -22,7 +24,7 @@ const Navbar: React.FC = () => {
   const router = useRouter();
 
   return (
-    <div className="fixed top-16 left-0 h-[calc(100vh-64px)] w-15 bg-gray-100 text-gray-700 flex flex-col items-center py-6 space-y-6 shadow-lg">
+    <div className="fixed w-16 z-50 top-16 left-0 h-[calc(100vh-64px)] bg-[#DEDEDE] text-[#766F6F] flex flex-col items-center py-6 space-y-8 shadow-lg">
       {menuItems.map((item, index) => (
         <div
           key={index}

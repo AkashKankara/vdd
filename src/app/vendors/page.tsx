@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 export default function VendorsPage() {
   const [showModal, setShowModal] = useState(false);
 
-  return (
+  return {
     <main className="flex h-screen pt-12 pl-12">
      
       <div className="flex-1 flex flex-col">
