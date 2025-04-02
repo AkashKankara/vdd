@@ -3,14 +3,16 @@ import { IoSearch } from "react-icons/io5";
 import { TbSettingsAutomation } from "react-icons/tb";
 import { ImBlocked } from "react-icons/im";
 import { MdFilterAlt } from "react-icons/md";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+// import FilterPanel from "./FilterPanel";
 
 
 export default function VendorsPage() {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <main className="flex h-screen pt-12 pl-8">
+    <main className="flex h-screen pt-12 pl-12">
      
       <div className="flex-1 flex flex-col">
      
@@ -215,15 +217,6 @@ function VendorTable() {
   const vendors = [...basevendors];
   // const vendors = [...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,  ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors];
 
-  const itemsPerPage = 100; // Limit the view to 100 vendors per page
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(vendors.length / itemsPerPage);
-
-    // Slice vendors for the current page
-    const displayedVendors = vendors.slice(
-      (currentPage - 1) * itemsPerPage,
-      currentPage * itemsPerPage
-);
  // head
 const [filteredVendors, setFilteredVendors] = useState(vendors);
 const [selectedRisk, setSelectedRisk] = useState("All");
@@ -245,45 +238,247 @@ const handleFilter = (risk: string) => {
   }
 };
 
+//FilterTab
+const [showFilter, setShowFilter] = useState(false);
+
+const applyFilters = () => {
+  console.log("Apply button clicked!"); // ✅ Check if this appears
+  const filtered = vendors.filter(
+    (vendor) =>
+      ["Govt", "Non Govt"].includes(vendor.type) && // ✅ Check vendor type
+      ["Low Risk", "Medium Risk"].includes(vendor.ddRank) // ✅ Check risk
+  );
+
+  setFilteredVendors(filtered);
+  setShowFilter(false);
+};
+
+//PaginationNoChange
+const itemsPerPage = 10 // Limit the view to 100 vendors per page
+const [currentPage, setCurrentPage] = useState(1);
+const totalPages = Math.ceil(filteredVendors.length / itemsPerPage);
+useEffect(() => {
+  setCurrentPage(1); // Reset to page 1 whenever filters change
+}, [filteredVendors]);
+
+
+  // Slice vendors for the current page
+  const displayedVendors = filteredVendors.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+    
+);
+
+//HeaderToggle
+
+const [filtersApplied, setFiltersApplied] = useState(false); // Tracks if filters are applied
+const [selectedFilters, setSelectedFilters] = useState([
+  { category: "Vendor Type", value: "Govt" },
+  { category: "Vendor Type", value: "Non Govt" },
+  { category: "Over Due", value: "<30 days" },
+  { category: "Over Due", value: ">31 to <90 days" },
+  { category: "Risk Rank", value: "Low" },
+  { category: "Risk Rank", value: "Medium" },
+  { category: "Department", value: "All" },
+]);
+
+
+const handleApplyFilters = () => {
+  console.log("Apply button clicked!"); 
+  setFiltersApplied(true);  // Show "Filters applied"
+  setShowFilter(false); // Close filter panel
+};
+
+const cancelFilters = () => {
+  console.log("Cancel button clicked!");
+  setFiltersApplied(false); // Reset to show four titles
+  setShowFilter(false); // Close filter panel
+};
+
 return (
   <div>
     {/* Risk Filter Tabs with Search & Filter Icons */}
     <div className="relative bg-white">
       {/* Tabs & Icons Container */}
-      <div className="flex justify-between items-center px-1 py-0.5 bg-white z-10">
+      <div className="flex justify-between items-center px-1 py-0.5 bg-white">
         {/* Tabs Container */}
-        <div className="flex space-x-2">
-          {[
-            { label: `Total Vendors (${totalVendors})`, risk: "All" },
-            { label: `No Risk (${noRiskCount})`, risk: "Low Risk" },
-            { label: `Medium Risk (${mediumRiskCount})`, risk: "Medium Risk" },
-            { label: `High Risk (${highRiskCount})`, risk: "High Risk" },
-          ].map(({ label, risk }) => (
-            <button
-              key={risk}
-              onClick={() => handleFilter(risk)}
-              className={`px-2 py-1.5 text-sm transition-all rounded-t-md relative 
-                ${
-                  selectedRisk === risk
-                    ? "bg-white text-black font-medium border border-gray-300 border-b-0"
-                    : "bg-gray-100 text-blue-500 border border-gray-300 hover:bg-blue-100 hover:text-blue-700 hover:border-blue-400"
-                }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+        {!showFilter ? (
+          filtersApplied ? (
+            // Show selected filters instead of "Filters applied"
+            <div className="flex flex-wrap items-center text-sm">
+              <span className="text-gray-500 mr-2">Filters:</span>
+               {/* Display all categories */}
+               <div className="flex space-x-4">
+                {["Vendor Type", "Over Due", "Risk Rank", "Department"].map((category) => {
+                  // Filter values for each category
+                  const categoryFilters = selectedFilters.filter(filter => filter.category === category);
+                  
+                  return categoryFilters.length > 0 ? (
+                    <div key={category} className="flex items-center space-x-2">
+                      {/* Category Label */}
+                      <span className="font-semibold text-gray-600 capitalize">{category}:</span>
+                      {/* Values for this category */}
+                      {categoryFilters.map((filter, index) => (
+                        <span key={index} className="bg-gray-200 text-black px-2 py-1 rounded-full flex items-center space-x-1">
+                          <span className="text-gray-600">{filter.value}</span>
+                          <button className="text-red-500 text-xs font-bold">×</button>
+                        </span>
+                      ))}
+                    </div>
+                  ) : null;
+                })}
+              </div>
+            </div>
+          ) : (
+            // Show risk filter tabs
+            <div className="flex space-x-2">
+              {[
+                { label: `Total Vendors (${totalVendors})`, risk: "All" },
+                { label: `No Risk (${noRiskCount})`, risk: "Low Risk" },
+                { label: `Medium Risk (${mediumRiskCount})`, risk: "Medium Risk" },
+                { label: `High Risk (${highRiskCount})`, risk: "High Risk" },
+              ].map(({ label, risk }) => (
+                <button
+                  key={risk}
+                  onClick={() => handleFilter(risk)}
+                  className={`px-2 py-1.5 text-sm transition-all rounded-t-md relative 
+                    ${
+                      selectedRisk === risk
+                        ? "bg-white text-black font-medium border border-gray-300 border-b-0"
+                        : "bg-gray-100 text-blue-500 border border-gray-300 hover:bg-blue-100 hover:text-blue-700 hover:border-blue-400"
+                    }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          )
+        ) : (
+          // When filter tab is open, show "No filters applied"
+          <div className="text-gray-500 text-sm font-medium">No filters applied</div>
+        )}
+
 
         {/* Search and Filter Icons */}
         <div className="flex space-x-2">
           <button className="opacity-50 transition duration-200 hover:opacity-100 hover:scale-105 active:scale-110">
             <IoSearch className="text-lg" />
           </button>
-          <button className="opacity-50 transition duration-200 hover:opacity-100 hover:scale-105 active:scale-110">
+          <button onClick={() => setShowFilter(true)}
+          className="opacity-50 transition duration-200 hover:opacity-100 hover:scale-105 active:scale-110">
             <MdFilterAlt className="text-lg" />
           </button>
         </div>
       </div>
+
+      {showFilter && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 z-40"   onClick={() => setShowFilter(false)} // Clicking the overlay closes the panel
+  >
+    {/* Filter Panel */}
+    <div className="fixed top-0 right-0 bg-white w-80 h-full shadow-lg p-5 z-50 font-sans"  onClick={(e) => e.stopPropagation()} // Prevents closing when clicking inside the panel
+    >
+      {/* Header */}
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-sm font-semibold">Filters</h2>
+        <button onClick={() => setShowFilter(false)} className="text-red-500 text-base">
+          &times;
+        </button>
+      </div>
+
+      <hr className="border-t border-gray-300 mb-4" />
+
+      {/* Filter Form */}
+      <form className="flex flex-col space-y-4">
+        {/* Initiated By */}
+        <div className="flex items-center space-x-3">
+          <label className="text-xs font-medium whitespace-nowrap">Initiated By:</label>
+          <input type="text" className="border border-gray-300 p-1 text-xs rounded flex-1" />
+        </div>
+
+        {/* Vendor Type */}
+        <div className="space-y-2">
+          <label className="flex items-center text-xs font-medium space-x-2">
+            <input type="checkbox" checked readOnly />
+            <span>Vendor Type:</span>
+          </label>
+          <div className="ml-4 space-y-2">
+            <label className="flex items-center text-xs space-x-2">
+              <input type="checkbox" checked readOnly />
+              <span>Govt</span>
+            </label>
+            <label className="flex items-center text-xs space-x-2">
+              <input type="checkbox" checked readOnly />
+              <span>Non Govt</span>
+            </label>
+          </div>
+        </div>
+
+        {/* Overdue */}
+        <div className="space-y-2">
+          <label className="flex items-center text-xs font-medium space-x-2">
+            <input type="checkbox" />
+            <span>Overdue:</span>
+          </label>
+          <div className="ml-4 space-y-2">
+            {["All", "< 30 Days", "31 to < 90 Days", "> 90 Days"].map((option) => (
+              <label key={option} className="flex items-center text-xs space-x-2">
+                <input type="checkbox"  defaultChecked={option === "< 30 Days" || option === "31 to < 90 Days"}  />
+                <span>{option}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Rank Risk */}
+        <div className="space-y-2">
+          <label className="flex items-center text-xs font-medium space-x-2">
+            <input type="checkbox" />
+            <span>Rank Risk:</span>
+          </label>
+          <div className="ml-4 space-y-2">
+            {["Low", "Medium", "High"].map((option) => (
+              <label key={option} className="flex items-center text-xs space-x-2">
+                <input type="checkbox"  defaultChecked={option === "Low" || option === "Medium"} />
+                <span>{option}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Department */}
+        <div className="space-y-2">
+          <label className="flex items-center text-xs font-medium space-x-2">
+            <input type="checkbox" checked readOnly/>
+            <span>Department:</span>
+          </label>
+          <div className="ml-4 space-y-2">
+            {["IT", "Marketing", "Finance", "Production"].map((option) => (
+              <label key={option} className="flex items-center text-xs space-x-2">
+                <input type="checkbox" />
+                <span>{option}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+      </form>
+
+      <hr className="border-t mt-4 border-gray-300 mb-4" />
+
+      {/* Buttons */}
+      <div className="flex justify-end space-x-3 mt-4">
+        <button
+          onClick={() => {setShowFilter(false); cancelFilters();}}
+          className="bg-white text-blue-600 border border-blue-500 text-xs px-4 py-1 rounded hover:bg-blue-100"
+        >
+          Cancel
+        </button>
+        <button onClick={() => { applyFilters(); handleApplyFilters(); }} className="bg-blue-500 text-white text-xs px-4 py-1 hover:bg-blue-400 rounded">
+          Apply
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
       {/* Bottom Border (Straight Line) */}
       <div className="absolute top-full left-0 w-full border-t border-gray-300"></div>
@@ -359,8 +554,8 @@ return (
   <span className="text-gray-600 text-xs">
     {`${(currentPage - 1) * itemsPerPage + 1} - ${Math.min(
       currentPage * itemsPerPage,
-      vendors.length
-    )} of ${vendors.length} items`}
+      filteredVendors.length
+    )} of ${filteredVendors.length} items`}
   </span>
 
   {/* Right: Pagination Controls */}
@@ -406,42 +601,71 @@ return (
     </button>
   </div>
 </div>
+
 </div>
 );
 }
 
 function NewVendorModal({ onClose }: { onClose: () => void }) {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-lg w-1/2">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">New Vendor</h2>
-          <button onClick={onClose} className="text-red-500 text-xl">&times;</button>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-20">
+      <div className="bg-white p-4 rounded-lg w-2/3 max-w-xl">
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="text-lg font-bold pl-4">New Vendor</h2>
+          <button onClick={onClose} className="text-red-500 text-lg">&times;</button>
         </div>
-        <form className="grid grid-cols-2 gap-4">
-          <input type="text" placeholder="Vendor Name" className="border p-2 rounded" />
-          <div className="flex items-center space-x-4">
-            <label className="flex items-center space-x-2">
-              <input type="radio" name="vendorType" value="Non Govt" /> <span>Non Govt</span>
-            </label>
-            <label className="flex items-center space-x-2">
-              <input type="radio" name="vendorType" value="Govt" /> <span>Govt</span>
-            </label>
+
+        <hr className="border-t border-gray-300 mb-4" />
+
+        <form className="flex flex-col space-y-2">
+          {/* Vendor Name */}
+          <div className="flex justify-between items-center">
+            <label className="text-xs font-medium text-right pr-4 w-1/2">Vendor Name :</label>
+            <input type="text" className="border p-1 text-sm rounded w-1/2" />
           </div>
-          <input type="text" placeholder="Business Registration Number" className="border p-2 rounded" />
-          <input type="text" placeholder="Tax Identification Number (TIN/CIN)" className="border p-2 rounded" />
-          <input type="text" placeholder="Industry/Category" className="border p-2 rounded" />
-          <input type="text" placeholder="Primary Contact Name" className="border p-2 rounded" />
-          <input type="email" placeholder="Email Address" className="border p-2 rounded" />
-          <input type="text" placeholder="Phone Number" className="border p-2 rounded" />
-          <input type="text" placeholder="Fax" className="border p-2 rounded" />
-          <input type="text" placeholder="Registered Address" className="border p-2 rounded" />
-          <input type="text" placeholder="Billing Address" className="border p-2 rounded" />
-          <input type="text" placeholder="Shipping Address" className="border p-2 rounded" />
+
+          {/* Vendor Type */}
+          <div className="flex items-center">
+            <label className="text-xs font-medium w-1/2 text-right pr-4">Vendor Type :</label>
+            <div className="flex space-x-4 w-1/2 justify-start">
+              <label className="flex items-center space-x-1 text-xs">
+                <input type="radio" name="vendorType" value="Non Govt" />
+                <span>Non Govt</span>
+              </label>
+              <label className="flex items-center space-x-1 text-xs">
+                <input type="radio" name="vendorType" value="Govt" />
+                <span>Govt</span>
+              </label>
+            </div>
+          </div>
+
+
+          {/* Other Fields */}
+          {[
+            "Business Registration Number :",
+            "Tax Identification Number (TIN/CIN) :",
+            "Industry/Category :",
+            "Primary Contact Name :",
+            "Email Address :",
+            "Phone Number :",
+            "Fax :",
+            "Registered Address :",
+            "Billing Address :",
+            "Shipping Address :",
+          ].map((field) => (
+            <div key={field} className="flex justify-between items-center">
+              <label className="text-xs font-medium text-right pr-4 w-1/2">{field}</label>
+              <input type="text" className="border p-1 text-sm rounded w-1/2" />
+            </div>
+          ))}
         </form>
-        <div className="flex justify-end space-x-4 mt-4">
-          <button onClick={onClose} className="bg-gray-200 px-4 py-2 rounded">Cancel</button>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
+
+        <hr className="border-t mt-2 border-gray-300 mb-4" />
+
+        {/* Buttons */}
+        <div className="flex justify-end space-x-2 mt-4">
+          <button onClick={onClose} className="bg-white text-blue-600 border hover:text-sm border-blue-500  hover:bg-blue-100 text-sm  px-3 py-1 rounded">Cancel</button>
+          <button className="bg-blue-500 text-white text-sm px-3 py-1 hover:bg-blue-400 rounded">Save</button>
         </div>
       </div>
     </div>
