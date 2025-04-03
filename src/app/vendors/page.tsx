@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 export default function VendorsPage() {
   const [showModal, setShowModal] = useState(false);
 
-  return {
+  return (
     <main className="flex h-screen pt-12 pl-12">
      
       <div className="flex-1 flex flex-col">
@@ -31,30 +31,6 @@ export default function VendorsPage() {
     </main>
   );
 }
-
-
-// function FilterTabs() {
-//   return (
-//     <div className="flex justify-between items-center my-4">
-//       <div className="flex space-x-2">
-//         <button className="px-4 py-2 bg-gray-200 rounded">Total Vendors (0)</button>
-//         <button className="px-4 py-2 bg-blue-200 rounded">No Risk (0)</button>
-//         <button className="px-4 py-2 bg-yellow-200 rounded">Medium Risk (0)</button>
-//         <button className="px-4 py-2 bg-red-200 rounded">High Risk (0)</button>
-//       </div>
-//       {/* Search and Filter Icons */}
-//       <div className="flex space-x-4">
-//         <button className="opacity-50 transition duration-200 hover:opacity-100 hover:scale-110 active:scale-125">
-//           <IoSearch className="text-2xl" />
-//         </button>
-//         <button className="opacity-50 transition duration-200 hover:opacity-100 hover:scale-110 active:scale-125">
-//           <MdFilterAlt className="text-2xl" />
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
-
 
 function VendorTable() {
   const basevendors = [
