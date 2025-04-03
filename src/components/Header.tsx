@@ -5,7 +5,7 @@ import { FaBell, FaUser } from "react-icons/fa";
 import logo from "../app/toyota_logo.png";
 const Header: React.FC = () => {
   return (
-    <div className="fixed top-0 left-0 right-0 h-16 bg-[#DEDEDE] p-4 shadow-md text-[#000000] flex items-center justify-between z-50">
+    <div className="fixed top-0 left-0 right-0 h-16 bg-[#DEDEDE] p-4 shadow-md text-[#000000] flex items-center justify-between z-10">
       {/* Left - Logo and Title */}
       <div className="flex items-center space-x-3">
         <Image src={logo} alt="Logo" width={32} height={32} />
