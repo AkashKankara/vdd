@@ -230,7 +230,7 @@ const applyFilters = () => {
 };
 
 //PaginationNoChange
-const itemsPerPage = 10 // Limit the view to 100 vendors per page
+const itemsPerPage = 100 // Limit the view to 100 vendors per page
 const [currentPage, setCurrentPage] = useState(1);
 const totalPages = Math.ceil(filteredVendors.length / itemsPerPage);
 useEffect(() => {
