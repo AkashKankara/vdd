@@ -214,9 +214,9 @@ function VendorTable() {
     }
   ];
 
-  const vendors = [...basevendors];
-  // const vendors = [...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,  ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors];
 
+  // const vendors = [...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,  ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors,...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors, ...basevendors];
+  const vendors = [...basevendors];
  // head
 const [filteredVendors, setFilteredVendors] = useState(vendors);
 const [selectedRisk, setSelectedRisk] = useState("All");
@@ -238,20 +238,91 @@ const handleFilter = (risk: string) => {
   }
 };
 
-//FilterTab
+//RealFilterstab
+const [initiatedBy, setInitiatedBy] = useState("");
+const [vendorTypes, setVendorTypes] = useState<string[]>([]);
+const [overdue, setOverdue] = useState<string[]>([]);
+const [rankRisk, setRankRisk] = useState<string[]>([]);
+const [departments, setDepartments] = useState<string[]>([]);
+
 const [showFilter, setShowFilter] = useState(false);
 
-const applyFilters = () => {
-  console.log("Apply button clicked!"); // ✅ Check if this appears
-  const filtered = vendors.filter(
-    (vendor) =>
-      ["Govt", "Non Govt"].includes(vendor.type) && // ✅ Check vendor type
-      ["Low Risk", "Medium Risk"].includes(vendor.ddRank) // ✅ Check risk
-  );
+const applyFilters = (overrideFilters?: {
+  initiatedBy?: string;
+  vendorTypes?: string[];
+  overdue?: string[];
+  rankRisk?: string[];
+  departments?: string[];
+}) => {
+  const today = new Date();
+
+  const {
+    initiatedBy: iBy = initiatedBy,
+    vendorTypes: vTypes = vendorTypes,
+    overdue: oDue = overdue,
+    rankRisk: rRisk = rankRisk,
+    departments: depts = departments,
+  } = overrideFilters || {};
+
+  const filtered = vendors.filter((vendor) => {
+    const matchesInitiatedBy = iBy
+      ? vendor.initiatedBy.toLowerCase().includes(iBy.toLowerCase())
+      : true;
+
+    const matchesVendorType =
+      vTypes.length === 0 || vTypes.includes(vendor.type);
+
+    const dueDate = new Date(vendor.ddDueDate);
+    const daysOverdue = (today.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24);
+
+    const matchesOverdue =
+      oDue.length === 0 ||
+      oDue.some((option) => {
+        switch (option) {
+          case "< 30 Days":
+            return daysOverdue < 30;
+          case "31 to < 90 Days":
+            return daysOverdue >= 31 && daysOverdue < 90;
+          case "> 90 Days":
+            return daysOverdue > 90;
+          case "All":
+            return true;
+          default:
+            return false;
+        }
+      });
+
+    const matchesRisk =
+      rRisk.length === 0 ||
+      rRisk.includes(vendor.ddRank.replace(" Risk", ""));
+
+    const matchesDepartment =
+      depts.length === 0 || depts.includes(vendor.department);
+
+    return (
+      matchesInitiatedBy &&
+      matchesVendorType &&
+      matchesOverdue &&
+      matchesRisk &&
+      matchesDepartment
+    );
+  });
 
   setFilteredVendors(filtered);
+
+  const newSelectedFilters: { category: string; value: string }[] = [];
+
+  if (iBy) newSelectedFilters.push({ category: "Initiated By", value: iBy });
+  vTypes.forEach((type) => newSelectedFilters.push({ category: "Vendor Type", value: type }));
+  oDue.forEach((option) => newSelectedFilters.push({ category: "Over Due", value: option }));
+  rRisk.forEach((rank) => newSelectedFilters.push({ category: "Risk Rank", value: rank }));
+  depts.forEach((dept) => newSelectedFilters.push({ category: "Department", value: dept }));
+
+  setSelectedFilters(newSelectedFilters);
+  setFiltersApplied(true);
   setShowFilter(false);
 };
+
 
 //PaginationNoChange
 const itemsPerPage = 10 // Limit the view to 100 vendors per page
@@ -272,27 +343,29 @@ useEffect(() => {
 //HeaderToggle
 
 const [filtersApplied, setFiltersApplied] = useState(false); // Tracks if filters are applied
-const [selectedFilters, setSelectedFilters] = useState([
-  { category: "Vendor Type", value: "Govt" },
-  { category: "Vendor Type", value: "Non Govt" },
-  { category: "Over Due", value: "<30 days" },
-  { category: "Over Due", value: ">31 to <90 days" },
-  { category: "Risk Rank", value: "Low" },
-  { category: "Risk Rank", value: "Medium" },
-  { category: "Department", value: "All" },
-]);
+type Filter = {
+  category: string;
+  value: string;
+};
 
+const [selectedFilters, setSelectedFilters] = useState<Filter[]>([]);
 
 const handleApplyFilters = () => {
-  console.log("Apply button clicked!"); 
-  setFiltersApplied(true);  // Show "Filters applied"
-  setShowFilter(false); // Close filter panel
+  setFiltersApplied(true); // This flag lets you show chips + hide risk tabs
+  setShowFilter(false);    // Close filter panel
+  applyFilters();          // Apply actual filter logic (you should include this!)
 };
 
 const cancelFilters = () => {
-  console.log("Cancel button clicked!");
-  setFiltersApplied(false); // Reset to show four titles
-  setShowFilter(false); // Close filter panel
+  setInitiatedBy("");
+  setVendorTypes([]);
+  setOverdue([]);
+  setRankRisk([]);
+  setDepartments([]);
+  setSelectedFilters([]);
+  setFiltersApplied(false);  // Hide chips, show tabs
+  setShowFilter(false);
+  setFilteredVendors(vendors); // Reset to full list
 };
 
 return (
@@ -306,29 +379,81 @@ return (
           filtersApplied ? (
             // Show selected filters instead of "Filters applied"
             <div className="flex flex-wrap items-center text-sm">
-              <span className="text-gray-500 mr-2">Filters:</span>
-               {/* Display all categories */}
-               <div className="flex space-x-4">
-                {["Vendor Type", "Over Due", "Risk Rank", "Department"].map((category) => {
-                  // Filter values for each category
-                  const categoryFilters = selectedFilters.filter(filter => filter.category === category);
-                  
-                  return categoryFilters.length > 0 ? (
-                    <div key={category} className="flex items-center space-x-2">
-                      {/* Category Label */}
-                      <span className="font-semibold text-gray-600 capitalize">{category}:</span>
-                      {/* Values for this category */}
-                      {categoryFilters.map((filter, index) => (
-                        <span key={index} className="bg-gray-200 text-black px-2 py-1 rounded-full flex items-center space-x-1">
-                          <span className="text-gray-600">{filter.value}</span>
-                          <button className="text-red-500 text-xs font-bold">×</button>
-                        </span>
-                      ))}
-                    </div>
-                  ) : null;
-                })}
-              </div>
-            </div>
+  <span className="text-gray-500 mr-2">Filters:</span>
+  {/* Display all categories */}
+  <div className="flex space-x-4 flex-wrap">
+    {["Vendor Type", "Over Due", "Risk Rank", "Department", "Initiated By"].map((category) => {
+      const categoryFilters = selectedFilters.filter((f) => f.category === category);
+
+      return categoryFilters.length > 0 ? (
+        <div key={category} className="flex items-center space-x-2">
+          <span className="font-semibold text-gray-600 capitalize">{category}:</span>
+          {categoryFilters.map((item, index) => (
+            <span
+              key={index}
+              className="bg-gray-200 text-black px-2 py-1 rounded-full flex items-center space-x-1"
+            >
+              <span className="text-gray-600">{item.value}</span>
+              <button
+  className="text-red-500 text-xs font-bold"
+  onClick={() => {
+    const updatedFilters = selectedFilters.filter(
+      (f) => !(f.category === item.category && f.value === item.value)
+    );
+    setSelectedFilters(updatedFilters);
+
+    let newInitiatedBy = initiatedBy;
+    let newVendorTypes = [...vendorTypes];
+    let newOverdue = [...overdue];
+    let newRankRisk = [...rankRisk];
+    let newDepartments = [...departments];
+
+    // Update respective filter state & mirror it in new variables
+    if (item.category === "Vendor Type") {
+      newVendorTypes = newVendorTypes.filter((v) => v !== item.value);
+      setVendorTypes(newVendorTypes);
+    } else if (item.category === "Over Due") {
+      newOverdue = newOverdue.filter((v) => v !== item.value);
+      setOverdue(newOverdue);
+    } else if (item.category === "Risk Rank") {
+      newRankRisk = newRankRisk.filter((v) => v !== item.value);
+      setRankRisk(newRankRisk);
+    } else if (item.category === "Department") {
+      newDepartments = newDepartments.filter((v) => v !== item.value);
+      setDepartments(newDepartments);
+    } else if (item.category === "Initiated By") {
+      newInitiatedBy = "";
+      setInitiatedBy("");
+    }
+
+    // Reapply filters using fresh values
+    setTimeout(() => {
+      if (updatedFilters.length === 0) {
+        setFilteredVendors(vendors);
+        setFiltersApplied(false);
+      } else {
+        applyFilters({
+          initiatedBy: newInitiatedBy,
+          vendorTypes: newVendorTypes,
+          overdue: newOverdue,
+          rankRisk: newRankRisk,
+          departments: newDepartments,
+        });
+      }
+    }, 0);
+  }}
+>
+  ×
+</button>
+
+            </span>
+          ))}
+        </div>
+      ) : null;
+    })}
+  </div>
+</div>
+
           ) : (
             // Show risk filter tabs
             <div className="flex space-x-2">
@@ -389,78 +514,110 @@ return (
 
       {/* Filter Form */}
       <form className="flex flex-col space-y-4">
-        {/* Initiated By */}
-        <div className="flex items-center space-x-3">
-          <label className="text-xs font-medium whitespace-nowrap">Initiated By:</label>
-          <input type="text" className="border border-gray-300 p-1 text-xs rounded flex-1" />
-        </div>
+  {/* Initiated By */}
+  <div className="flex items-center space-x-3">
+    <label className="text-xs font-medium whitespace-nowrap">Initiated By:</label>
+    <input
+      type="text"
+      className="border border-gray-300 p-1 text-xs rounded flex-1"
+      value={initiatedBy}
+      onChange={(e) => setInitiatedBy(e.target.value)}
+    />
+  </div>
 
-        {/* Vendor Type */}
-        <div className="space-y-2">
-          <label className="flex items-center text-xs font-medium space-x-2">
-            <input type="checkbox" checked readOnly />
-            <span>Vendor Type:</span>
-          </label>
-          <div className="ml-4 space-y-2">
-            <label className="flex items-center text-xs space-x-2">
-              <input type="checkbox" checked readOnly />
-              <span>Govt</span>
-            </label>
-            <label className="flex items-center text-xs space-x-2">
-              <input type="checkbox" checked readOnly />
-              <span>Non Govt</span>
-            </label>
-          </div>
-        </div>
+  {/* Vendor Type */}
+  <div className="space-y-2">
+    <span className="text-xs font-medium">Vendor Type:</span>
+    <div className="ml-4 space-y-2">
+      {["Govt", "Non Govt"].map((type) => (
+        <label key={type} className="flex items-center text-xs space-x-2">
+          <input
+            type="checkbox"
+            checked={vendorTypes.includes(type)}
+            onChange={() =>
+              setVendorTypes((prev) =>
+                prev.includes(type)
+                  ? prev.filter((v) => v !== type)
+                  : [...prev, type]
+              )
+            }
+          />
+          <span>{type}</span>
+        </label>
+      ))}
+    </div>
+  </div>
 
-        {/* Overdue */}
-        <div className="space-y-2">
-          <label className="flex items-center text-xs font-medium space-x-2">
-            <input type="checkbox" />
-            <span>Overdue:</span>
-          </label>
-          <div className="ml-4 space-y-2">
-            {["All", "< 30 Days", "31 to < 90 Days", "> 90 Days"].map((option) => (
-              <label key={option} className="flex items-center text-xs space-x-2">
-                <input type="checkbox"  defaultChecked={option === "< 30 Days" || option === "31 to < 90 Days"}  />
-                <span>{option}</span>
-              </label>
-            ))}
-          </div>
-        </div>
+  {/* Overdue */}
+  <div className="space-y-2">
+    <span className="text-xs font-medium">Overdue:</span>
+    <div className="ml-4 space-y-2">
+      {["All", "< 30 Days", "31 to < 90 Days", "> 90 Days"].map((option) => (
+        <label key={option} className="flex items-center text-xs space-x-2">
+          <input
+            type="checkbox"
+            checked={overdue.includes(option)}
+            onChange={() =>
+              setOverdue((prev) =>
+                prev.includes(option)
+                  ? prev.filter((o) => o !== option)
+                  : [...prev, option]
+              )
+            }
+          />
+          <span>{option}</span>
+        </label>
+      ))}
+    </div>
+  </div>
 
-        {/* Rank Risk */}
-        <div className="space-y-2">
-          <label className="flex items-center text-xs font-medium space-x-2">
-            <input type="checkbox" />
-            <span>Rank Risk:</span>
-          </label>
-          <div className="ml-4 space-y-2">
-            {["Low", "Medium", "High"].map((option) => (
-              <label key={option} className="flex items-center text-xs space-x-2">
-                <input type="checkbox"  defaultChecked={option === "Low" || option === "Medium"} />
-                <span>{option}</span>
-              </label>
-            ))}
-          </div>
-        </div>
+  {/* Rank Risk */}
+  <div className="space-y-2">
+    <span className="text-xs font-medium">Rank Risk:</span>
+    <div className="ml-4 space-y-2">
+      {["Low", "Medium", "High"].map((option) => (
+        <label key={option} className="flex items-center text-xs space-x-2">
+          <input
+            type="checkbox"
+            checked={rankRisk.includes(option)}
+            onChange={() =>
+              setRankRisk((prev) =>
+                prev.includes(option)
+                  ? prev.filter((r) => r !== option)
+                  : [...prev, option]
+              )
+            }
+          />
+          <span>{option}</span>
+        </label>
+      ))}
+    </div>
+  </div>
 
-        {/* Department */}
-        <div className="space-y-2">
-          <label className="flex items-center text-xs font-medium space-x-2">
-            <input type="checkbox" checked readOnly/>
-            <span>Department:</span>
-          </label>
-          <div className="ml-4 space-y-2">
-            {["IT", "Marketing", "Finance", "Production"].map((option) => (
-              <label key={option} className="flex items-center text-xs space-x-2">
-                <input type="checkbox" />
-                <span>{option}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-      </form>
+  {/* Department */}
+  <div className="space-y-2">
+    <span className="text-xs font-medium">Department:</span>
+    <div className="ml-4 space-y-2">
+      {["IT", "Marketing", "Finance", "Production"].map((option) => (
+        <label key={option} className="flex items-center text-xs space-x-2">
+          <input
+            type="checkbox"
+            checked={departments.includes(option)}
+            onChange={() =>
+              setDepartments((prev) =>
+                prev.includes(option)
+                  ? prev.filter((d) => d !== option)
+                  : [...prev, option]
+              )
+            }
+          />
+          <span>{option}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+</form>
+
 
       <hr className="border-t mt-4 border-gray-300 mb-4" />
 
