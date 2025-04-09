@@ -7,6 +7,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { RiTriangleFill } from "react-icons/ri";
 import { IoCaretDown } from "react-icons/io5";
+import { useRouter } from "next/navigation";
 
 // Define the type for the dataset
 interface DepartmentData {
@@ -66,35 +67,39 @@ const InteractiveCharts: React.FC = () => {
 
   const vendorData = selectedDepartment
     ? [
-        { name: "Non Govt Vendors", value: selectedDepartment.nonGovt, color: "#2F4C71" },
-        { name: "Govt Vendors", value: selectedDepartment.govt, color: "#C59B11" },
-      ]
+      { name: "Non Govt Vendors", value: selectedDepartment.nonGovt, color: "#2F4C71" },
+      { name: "Govt Vendors", value: selectedDepartment.govt, color: "#C59B11" },
+    ]
     : [
-        { name: "Non Govt Vendors", value: initialAggregatedData.nonGovt, color: "#2F4C71" },
-        { name: "Govt Vendors", value: initialAggregatedData.govt, color: "#C59B11" },
-      ];
+      { name: "Non Govt Vendors", value: initialAggregatedData.nonGovt, color: "#2F4C71" },
+      { name: "Govt Vendors", value: initialAggregatedData.govt, color: "#C59B11" },
+    ];
 
   const riskData = selectedDepartment
     ? [
-        { name: "No Risk", value: selectedDepartment.noRisk, color: "#18A02F" },
-        { name: "Medium Risk", value: selectedDepartment.mediumRisk, color: "#E09B06" },
-        { name: "High Risk", value: selectedDepartment.highRisk, color: "#B40101" },
-        { name: "Blacklisted", value: selectedDepartment.blacklisted, color: "#B7B7B7" },
-      ]
+      { name: "No Risk", value: selectedDepartment.noRisk, color: "#18A02F" },
+      { name: "Medium Risk", value: selectedDepartment.mediumRisk, color: "#E09B06" },
+      { name: "High Risk", value: selectedDepartment.highRisk, color: "#B40101" },
+      { name: "Blacklisted", value: selectedDepartment.blacklisted, color: "#B7B7B7" },
+    ]
     : [
-        { name: "No Risk", value: initialAggregatedData.noRisk, color: "#18A02F" },
-        { name: "Medium Risk", value: initialAggregatedData.mediumRisk, color: "#E09B06" },
-        { name: "High Risk", value: initialAggregatedData.highRisk, color: "#B40101" },
-        { name: "Blacklisted", value: initialAggregatedData.blacklisted, color: "#B7B7B7" },
-      ];
+      { name: "No Risk", value: initialAggregatedData.noRisk, color: "#18A02F" },
+      { name: "Medium Risk", value: initialAggregatedData.mediumRisk, color: "#E09B06" },
+      { name: "High Risk", value: initialAggregatedData.highRisk, color: "#B40101" },
+      { name: "Blacklisted", value: initialAggregatedData.blacklisted, color: "#B7B7B7" },
+    ];
+  const router = useRouter();
 
+  const handleVendorClick = (type: string) => {
+    router.push(`/vendors?type=${type}`);
+  };
   return (
 
-     <Grid container spacing={2}>
-      
+    <Grid container spacing={2}>
+
       {/*Vendor Status Pie Charts */}
       <Grid item sm={7}>
-      <Typography variant="body1" fontWeight="bold">Vendor Summary</Typography>
+        <Typography variant="body1" fontWeight="bold">Vendor Summary</Typography>
         <Card sx={{ p: 1, width: "100%", maxWidth: 550, boxShadow: 3, borderRadius: 2, backgroundColor: "#FBFBFB", height: 270 }}>
           <Grid container display="flex" flexDirection="row" alignItems="center" spacing={0}>
 
@@ -154,6 +159,8 @@ const InteractiveCharts: React.FC = () => {
                         fontSize: "0.85rem",
                         mb: 0.5,
                       }}
+                      onClick={() => handleVendorClick(vendor.name.includes("Non") ? "Non Govt" : "Govt")}
+                      style={{ cursor: "pointer" }}
                     >
                       {vendor.name}: {vendor.value}
                     </Typography>
@@ -164,7 +171,7 @@ const InteractiveCharts: React.FC = () => {
           </Grid>
         </Card>
       </Grid>
-      {/*Pending DDD Bar Chart*/}           
+      {/*Pending DDD Bar Chart*/}
       <Grid item sm={2}>
         <Typography variant="body1" fontWeight="bold">Pending DDD</Typography>
         <Card sx={{ p: 1, boxShadow: 3, borderRadius: 2, backgroundColor: "#F5F5F5", width: "100%", maxwidth: 200, height: 270 }}>
@@ -174,11 +181,11 @@ const InteractiveCharts: React.FC = () => {
                 <YAxis type="category" dataKey="department" hide />
                 <XAxis type="number" hide />
                 <Tooltip cursor={{ fill: "transparent" }} />
-                <Bar 
-                  dataKey="requests" 
-                  fill="#A47400" 
-                  barSize={10} 
-                  radius={[0, 10, 10, 0]} 
+                <Bar
+                  dataKey="requests"
+                  fill="#A47400"
+                  barSize={10}
+                  radius={[0, 10, 10, 0]}
                   onClick={(entry) => handleBarClick(entry)}
                   label={({ x, y, width, value, index }) => (
                     <>
@@ -186,7 +193,7 @@ const InteractiveCharts: React.FC = () => {
                       <text x={x} y={y - 5} fill="black" fontSize={12}>
                         {data[index].department}
                       </text>
-                
+
                       {/* Value Label on the Right Side */}
                       <text x={x + width + 5} y={y + 5} dy={8} fill="black" fontSize={12}>
                         {value}
@@ -248,8 +255,8 @@ const InteractiveCharts: React.FC = () => {
         </Card>
 
       </Grid>
-     </Grid>
-    
+    </Grid>
+
   );
 };
 

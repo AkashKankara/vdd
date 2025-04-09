@@ -97,21 +97,21 @@ export default function CorruptionPerceptionIndex() {
                 <td className="border border-white px-4 py-2">www.google.com</td>
                 <td className="border border-white px-4 py-2"></td>
                 <td className="border border-white px-4 py-2">13.7</td>
-                <td className="border border-white px-4 py-2"><input type="text" className="w-full" /></td>
+                <td className="border border-white px-4 py-2"><input type="text" className="w-full bg-white" /></td>
               </tr>
               <tr className="bg-[#F1F1F1]">
                 <td className="border border-white px-4 py-2">Third party’s official website</td>
                 <td className="border border-white px-4 py-2"></td>
                 <td className="border border-white px-4 py-2"></td>
                 <td className="border border-white px-4 py-2">16.5</td>
-                <td className="border border-white px-4 py-2"><input type="text" className="w-full" /></td>
+                <td className="border border-white px-4 py-2"><input type="text" className="w-full bg-white" /></td>
               </tr>
               <tr className="bg-[#F1F1F1]">
                 <td className="border border-white px-4 py-2">Google Maps</td>
                 <td className="border border-white px-4 py-2">www.google.com/maps</td>
                 <td className="border border-white px-4 py-2"></td>
                 <td className="border border-white px-4 py-2">12</td>
-                <td className="border border-white px-4 py-2"><input type="text" className="w-full" /></td>
+                <td className="border border-white px-4 py-2"><input type="text" className="w-full bg-white" /></td>
               </tr>
               <tr className="bg-[#F1F1F1]">
                 <td className="border border-white px-4 py-2" rowSpan={2}>Company Information</td>
@@ -119,14 +119,14 @@ export default function CorruptionPerceptionIndex() {
                 <td className="border border-white px-4 py-2">Regulatory database</td>
                 <td className="border border-white px-4 py-2"></td>
                 <td className="border border-white px-4 py-2">17</td>
-                <td className="border border-white px-4 py-2"><input type="text" className="w-full" /></td>
+                <td className="border border-white px-4 py-2"><input type="text" className="w-full bg-white" /></td>
               </tr>
               <tr className="bg-[#F1F1F1]">
                 <td className="border border-white px-4 py-2">Director Search</td>
                 <td className="border border-white px-4 py-2">Director Search</td>
                 <td className="border border-white px-4 py-2"></td>
                 <td className="border border-white px-4 py-2">17</td>
-                <td className="border border-white px-4 py-2"><input type="text" className="w-full" /></td>
+                <td className="border border-white px-4 py-2"><input type="text" className="w-full bg-white" /></td>
               </tr>
               <tr className="bg-[#0B6DFF1A]">
                 <td className="border border-white px-4 py-2" rowSpan={2}>Adverse Press/Media</td>
@@ -135,14 +135,14 @@ export default function CorruptionPerceptionIndex() {
                 <td className="border border-white px-4 py-2">https://economictimes.indiatimes.com/ <br /> https://www.hindustantimes.com/</td>
                 <td className="border border-white px-4 py-2"></td>
                 <td className="border border-white px-4 py-2">13.7</td>
-                <td className="border border-white px-4 py-2"><input type="text" className="w-full" /></td>
+                <td className="border border-white px-4 py-2"><input type="text" className="w-full bg-white" /></td>
               </tr>
               <tr className="bg-[#0B6DFF1A]">
                 <td className="border border-white px-4 py-2">Regulatory database</td>
                 <td className="border border-white px-4 py-2">Regulatory database</td>
                 <td className="border border-white px-4 py-2"></td>
                 <td className="border border-white px-4 py-2">17</td>
-                <td className="border border-white px-4 py-2"><input type="text" className="w-full" /></td>
+                <td className="border border-white px-4 py-2"><input type="text" className="w-full bg-white" /></td>
               </tr>
             </tbody>
           </table>
