@@ -11,24 +11,27 @@ import { FaAngleLeft } from "react-icons/fa6";
 const NewDueDiligence: React.FC = () => {
   const router = useRouter();
   const [activeStep, setActiveStep] = useState("Initiate");
+  const [activeTab, setActiveTab] = useState('summary');
   const handleNext = () => {
     if (activeStep === "Initiate") setActiveStep("Data Capture");
-    else if (activeStep === "Data Capture") setActiveStep("Assess");
-    else if (activeStep === "Assess") setActiveStep("Review");
-    else if (activeStep === "Review") setActiveStep("Finalize");
+    if (activeStep === "Data Capture") setActiveStep("Assess");
+    if (activeStep === "Assess") setActiveTab("corruption perception index");
+    if (activeStep === "Assess" && activeTab === "corruption perception index") setActiveTab("detailed report");
+    if (activeStep === "Assess" && activeTab === "detailed report") setActiveStep("Review");
+    if (activeStep === "Review") setActiveStep("Finalize");
   };
   
   const handleBack = () => {
     if (activeStep === "Data Capture") setActiveStep("Initiate");
-    else if (activeStep === "Assess") setActiveStep("Data Capture");
-    else if (activeStep === "Review") setActiveStep("Assess");
-    else if (activeStep === "Finalize") setActiveStep("Review");
+    if (activeStep === "Assess") setActiveStep("Data Capture");
+    if (activeStep === "Review") {setActiveStep("Assess"); setActiveTab('summary')}; 
+    if (activeStep === "Finalize") setActiveStep("Review");
   };
   
-
+console.log(activeStep);
   return (
     <div className="bg-white min-h-screen flex flex-col pl-14 pt-14">
-      <StatusBar activeStep={activeStep} setActiveStep={setActiveStep} />
+      <StatusBar activeStep={activeStep} setActiveStep={setActiveStep} activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="w-full max-w-screen-xl px-12 mt-8 flex justify-end p-4 border-t border-[#D8D8D8]">
           <button className="px-4 rounded-md m-2 text-[#026FE9] hover:bg-gray-200">
             Cancel
