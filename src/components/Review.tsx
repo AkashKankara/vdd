@@ -26,8 +26,7 @@ export default function CorruptionPerceptionIndex() {
       {activeTab === 'detailed report' ? (
         <>
         <DetailedReport />
-        </>
-        
+        </>   
       ) : (
         
         <>
