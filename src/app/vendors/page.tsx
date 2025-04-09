@@ -4,6 +4,7 @@ import { TbSettingsAutomation } from "react-icons/tb";
 import { ImBlocked } from "react-icons/im";
 import { MdFilterAlt } from "react-icons/md";
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 // import FilterPanel from "./FilterPanel";
 
@@ -11,7 +12,7 @@ import { useState, useEffect } from "react";
 export default function VendorsPage() {
   const [showModal, setShowModal] = useState(false);
 
-  return {
+  return (
     <main className="flex h-screen pt-12 pl-12">
      
       <div className="flex-1 flex flex-col">
@@ -225,6 +226,10 @@ const totalVendors = vendors.length;
 const noRiskCount = vendors.filter((v) => v.ddRank === "Low Risk").length;
 const mediumRiskCount = vendors.filter((v) => v.ddRank === "Medium Risk").length;
 const highRiskCount = vendors.filter((v) => v.ddRank === "High Risk").length;
+
+const searchParams = useSearchParams();
+const type = searchParams.get("type");
+const filtered = basevendors.filter(v => v.type === type);
 
 const handleFilter = (risk: string) => {
   setSelectedRisk(risk);
