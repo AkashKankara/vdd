@@ -1,58 +1,19 @@
 'use client';
 
 import React, { useState } from 'react';
+import Summary from './Summary';
+import DetailedReport from './detailed_report';
+import CorruptionPerception from './corruption_perception';
 
-export default function CorruptionPerceptionIndex() {
-  const [activeTab, setActiveTab] = useState('summary');
-  const [selections, setSelections] = useState({
-    govt_connection: '',
-    background_review: '',
-    industry_experience: ''
-  });
+interface AssessProps {
+  activeTab: string;
+  setActiveTab: (step: string) => void;
+}
 
-  const handleSelectionChange = (event) => {
-    setSelections({ ...selections, [event.target.name]: event.target.value });
-  };
-
-  const categories = [
-    {
-      name: "Business Impact (If product or service is discontinued)",
-      weight: 30,
-      score: 8,
-      weightedScore: 2.4
-    },
-    {
-      name: "Vendor interaction with TKM Employees or Customers[1]",
-      weight: 20,
-      score: 7,
-      weightedScore: 1.4
-    },
-    {
-      name: "Accumulated annual transaction amount",
-      weight: 15,
-      score: 9,
-      weightedScore: 1.35
-    },
-    {
-      name: "Contract Term",
-      weight: 15,
-      score: 6,
-      weightedScore: 0.9
-    },
-    {
-      name: "Potential for Significant Cost or Loss",
-      weight: 10,
-      score: 7,
-      weightedScore: 0.7
-    },
-    {
-      name: "Access to TKM's Sensitive Information (product",
-      weight: 10,
-      score: 8,
-      weightedScore: 0.8
-    }
-  ];
-
+// function Assess() {
+  // const [activeTab, setActiveTab] = useState('summary');
+const Assess: React.FC<AssessProps> = ({ activeTab, setActiveTab })=> {
+console.log(activeTab);
   return (
     <div className="w-full max-w-5xl mx-auto p-4">
       {/* Tabs */}
@@ -68,14 +29,8 @@ export default function CorruptionPerceptionIndex() {
         ))}
       </div>
 
-      {/* Total Points */}
-      <div className="mt-4">
-        <div className="bg-[#32A013] text-white px-4 py-2 inline-block rounded-md font-medium">
-          Total Points: 22
-        </div>
-      </div>
-
       {activeTab === 'detailed report' ? (
+<<<<<<< Updated upstream
         <div className="overflow-x-auto mt-4">
           <table className="w-full border-collapse">
             <thead>
@@ -147,91 +102,23 @@ export default function CorruptionPerceptionIndex() {
             </tbody>
           </table>
         </div>
+=======
+        <>
+        <DetailedReport />
+        </>
+>>>>>>> Stashed changes
       ) : 
       activeTab === 'corruption perception index' ? (
-        <div className="overflow-x-auto mt-4">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-[#E2E2E2]">
-                <th className="border-2 border-white px-4 py-2 text-left">Factors</th>
-                <th className="border-2 border-white px-4 py-2 text-center">Green (1 point each)</th>
-                <th className="border-2 border-white px-4 py-2 text-center">Yellow (3 points each)</th>
-                <th className="border-2 border-white px-4 py-2 text-center">Red (5 points each)</th>
-                <th className="border-2 border-white px-4 py-2 text-center">Points</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="bg-gray-100">
-                <td className="border-2 border-white px-4 py-2">Connection with Government Officials or Entities</td>
-                <td className="border-2 border-white px-4 py-2 text-center">
-                  <label><input type="radio" name="govt_connection" value="green" onChange={handleSelectionChange} /> No Interactions</label>
-                </td>
-                <td className="border-2 border-white px-4 py-2 text-center">
-                  <label><input type="radio" name="govt_connection" value="yellow" onChange={handleSelectionChange} /> Limited Interactions</label>
-                </td>
-                <td className="border-2 border-white px-4 py-2 text-center">
-                  <label><input type="radio" name="govt_connection" value="red" onChange={handleSelectionChange} /> Frequent Interactions</label>
-                </td>
-                <td className="border-2 border-white px-4 py-2 text-center">3</td>
-              </tr>
-              <tr className='bg-blue-100'>
-                <td className="border-2 border-white px-4 py-2" rowSpan={2}>Background Review</td>
-                <td className="border-2 border-white px-4 py-2 text-center">
-                  <label><input type="radio" name="background_review" value="green" onChange={handleSelectionChange} /> No Prior Allegation</label>
-                </td>
-                <td className="border-2 border-white px-4 py-2 text-center">
-                  <label><input type="radio" name="background_review" value="yellow" onChange={handleSelectionChange} /> Prior Allegation (No Findings)</label>
-                </td>
-                <td className="border-2 border-white px-4 py-2 text-center">
-                  <label><input type="radio" name="background_review" value="red" onChange={handleSelectionChange} /> Current Allegation</label>
-                </td>
-                <td className="border-2 border-white px-4 py-2 text-center">5</td>
-              </tr>
-              <tr className="bg-blue-100">
-                <td className="border-2 border-white px-4 py-2 text-center">
-                  <label><input type="radio" name="industry_experience" value="green" onChange={handleSelectionChange} /> 3+ Years</label>
-                </td>
-                <td className="border-2 border-white px-4 py-2 text-center">
-                  <label><input type="radio" name="industry_experience" value="yellow" onChange={handleSelectionChange} /> 1-3 Years</label>
-                </td>
-                <td className="border-2 border-white px-4 py-2 text-center">
-                  <label><input type="radio" name="industry_experience" value="red" onChange={handleSelectionChange} /> No Experience</label>
-                </td>
-                <td className="border-2 border-white px-4 py-2 text-center">1</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <>
+        <CorruptionPerception />
+        </>
       ) : (
         <>
-          {/* Ranking Title */}
-          <h2 className="mt-6 text-lg font-medium">Ranking</h2>
-
-          {/* Table */}
-          <div className="overflow-x-auto mt-2">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="bg-[#E2E2E2]">
-                  <th className="border-2 border-[#E2E2E2] border-r-white px-4 py-2 text-center font-medium">Category</th>
-                  <th className="border-2 border-[#E2E2E2] border-r-white px-4 py-2 text-center font-medium">Weight (%)</th>
-                  <th className="border-2 border-[#E2E2E2] border-r-white px-4 py-2 text-center font-medium">Score</th>
-                  <th className="border-2 border-[#E2E2E2] px-4 py-2 text-center font-medium">Weighted Score</th>
-                </tr>
-              </thead>
-              <tbody>
-                {categories.map((category, index) => (
-                  <tr key={index} className="hover:bg-gray-100">
-                    <td className="border border-[#D8D8D8] px-4 py-2 font-medium">{category.name}</td>
-                    <td className="border border-[#D8D8D8] px-4 py-2 text-center font-medium">{category.weight}</td>
-                    <td className="border border-[#D8D8D8] px-4 py-2 text-center font-medium">{category.score}</td>
-                    <td className="border border-[#D8D8D8] px-4 py-2 text-center font-medium">{category.weightedScore}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <Summary />
         </>
       )}
     </div>
   );
-}
+};
+
+export default Assess;

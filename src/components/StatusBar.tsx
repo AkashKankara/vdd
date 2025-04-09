@@ -17,6 +17,7 @@ interface Step {
   component: React.ReactElement;
 }
 
+<<<<<<< Updated upstream
 const steps: Step[] = [
   { name: "Initiate", icon: <FaInfoCircle size={14} />, component: <Initiate/> },
   { name: "Data Capture", icon: <FaBug size={14} />, component: <DataCapture/> },
@@ -24,8 +25,23 @@ const steps: Step[] = [
   { name: "Review", icon: <FaClipboardCheck size={14} />, component: <div>Review Content</div> },
   { name: "Finalize", icon: <FaUserCheck size={14} />, component: <div>Finalize Content</div> },
 ];
+=======
+interface AssessProps {
+  activeTab: string;
+  setActiveTab: (step: string) => void;
+}
+>>>>>>> Stashed changes
 
-const StatusBar: React.FC<StatusBarProps> = ({ activeStep, setActiveStep }) => {
+type Props = StatusBarProps & AssessProps;
+const StatusBar: React.FC<Props> = ({ activeStep, setActiveStep, activeTab, setActiveTab }) => {
+  // const [activeTab, setActiveTab] = useState('summary');
+  const steps: Step[] = [
+    { name: "Initiate", icon: <FaInfoCircle size={14} />, component: <Initiate/> },
+    { name: "Data Capture", icon: <FaBug size={14} />, component: <DataCapture/> },
+    { name: "Assess", icon: <FaShieldAlt size={14} />, component: <Assess activeTab={activeTab} setActiveTab={setActiveTab}/> },
+    { name: "Review", icon: <FaClipboardCheck size={14} />, component: <Review/> },
+    { name: "Finalize", icon: <FaUserCheck size={14} />, component: <Review/> },
+  ];
   const currentIndex = steps.findIndex((s) => s.name === activeStep);
 
   return (
