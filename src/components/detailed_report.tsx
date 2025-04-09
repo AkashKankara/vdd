@@ -1,37 +1,26 @@
 'use client';
 
-import React, { useState } from 'react';
-import Summary from './Summary';
-import DetailedReport from './detailed_report';
-import CorruptionPerception from './corruption_perception';
+import React from 'react';
+import { GrDocumentText } from "react-icons/gr";
 
-interface AssessProps {
-  activeTab: string;
-  setActiveTab: (step: string) => void;
-}
-
-// function Assess() {
-  // const [activeTab, setActiveTab] = useState('summary');
-const Assess: React.FC<AssessProps> = ({ activeTab, setActiveTab })=> {
-console.log(activeTab);
-  return (
-    <div className="w-full max-w-5xl mx-auto p-4">
-      {/* Tabs */}
-      <div className="flex">
-        {['Summary', 'Corruption Perception Index', 'Detailed Report'].map((tab) => (
-          <button
-            key={tab}
-            className={`px-6 py-2 mr-3 ${activeTab === tab.toLowerCase() ? 'text-[#383838] border-t-2 border-x-2 border-[#CBCBCB] rounded-t-lg bg-white font-semibold' : 'text-[#0B6DFF] border-b border-[#0B6DFF] bg-[#F3F3F3] rounded-t-lg'}`}
-            onClick={() => setActiveTab(tab.toLowerCase())}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
-
-      {activeTab === 'detailed report' ? (
-<<<<<<< Updated upstream
+export default function DetailedReport(){
+    return(
+        <>
         <div className="overflow-x-auto mt-4">
+          <div className="flex items-start justify-between">
+            {/* Total Points */}
+            <div className="mb-4">
+              <div className="bg-[#32A013] text-white px-4 py-2 inline-block rounded-md font-medium">
+                Total Points: 22
+              </div>
+            </div>
+            <div className="download">
+              <button className='flex items-baseline'>
+              <GrDocumentText /><span className='text-[#026FE9] pl-1'>Download</span>
+              </button>
+            </div>
+          </div>
+                  
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-[#E2E2E2]">
@@ -102,23 +91,6 @@ console.log(activeTab);
             </tbody>
           </table>
         </div>
-=======
-        <>
-        <DetailedReport />
         </>
->>>>>>> Stashed changes
-      ) : 
-      activeTab === 'corruption perception index' ? (
-        <>
-        <CorruptionPerception />
-        </>
-      ) : (
-        <>
-          <Summary />
-        </>
-      )}
-    </div>
-  );
-};
-
-export default Assess;
+    )
+}
