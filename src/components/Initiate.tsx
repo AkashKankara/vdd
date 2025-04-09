@@ -48,9 +48,9 @@ const vendors: Vendor[] = [
 ];
 
 const getScoreClass = (score: number) => {
-  if (score <= 25) return "bg-green-600 text-black";
-  if (score > 25 && score <= 50) return "bg-amber-500 text-black";
-  return "bg-red-600 text-black";
+  if (score <= 25) return "bg-[#66DB5D] text-black";
+  if (score > 25 && score <= 50) return "bg-[#FFCA65] text-black";
+  return "bg-[#DB4734] text-black";
 };
 
 const Initiate: React.FC = () => {
@@ -63,12 +63,12 @@ const Initiate: React.FC = () => {
         <div className="p-5 flex-grow overflow-auto">
           <div className="flex space-x-5">
             <div className="w-2/3">
-              <div className="bg-white p-5 shadow-md rounded-lg mb-5">
+              <div className="bg-[#FFFFFF] p-5 mb-5">
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="font-medium text-base">Vendor</label>
+                    <label className="font-medium text-base text-[#666666]">Vendor</label>
                     <select
-                      className="border p-2 ml-2 rounded-lg shadow-sm focus:ring focus:ring-blue-300"
+                      className="border border-[#CCCCCC] p-2 ml-2 w-xs rounded-lg shadow-sm focus:ring focus:ring-blue-300 text-[#777777]"
                       onChange={(e) => {
                         const selected = vendors.find((v) => v.name === e.target.value);
                         if (selected) setSelectedVendor(selected);
@@ -81,34 +81,34 @@ const Initiate: React.FC = () => {
                     </select>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <span className="font-medium bg-gray-200 p-2 rounded shadow">Vendor ID: {selectedVendor.id}</span>
-                    <span className="bg-blue-200 text-blue-700 px-3 py-1 rounded-lg shadow">{selectedVendor.type}</span>
+                    <span className="font-medium bg-[#F0F0F0] p-2 rounded shadow">Vendor ID: {selectedVendor.id}</span>
+                    <span className="px-3 py-1 ">{selectedVendor.type}</span>
                   </div>
                 </div>
               </div>
-              <div className="bg-white p-5 shadow-md rounded-lg">
+              <div className="bg-white p-5">
                 <h2 className="text-lg font-semibold mb-3">Due Diligence History</h2>
                 <div className="overflow-x-auto">
                   <table className="w-full border border-gray-400 shadow-md rounded-lg">
                     <thead>
-                      <tr className="bg-gray-200 border border-gray-400">
-                        <th className="border border-gray-400 p-2">Year</th>
-                        <th className="border border-gray-400 p-2">Score</th>
-                        <th className="border border-gray-400 p-2">Initiated By</th>
-                        <th className="border border-gray-400 p-2">Initiated On</th>
-                        <th className="border border-gray-400 p-2">Comments</th>
-                        <th className="border border-gray-400 p-2">Status</th>
+                      <tr className="bg-[#EAEAEA] border">
+                        <th className="border border-[#EAEAEA] border-b-[#D8D8D8] border-r-white p-2 text-[#232323]">Year</th>
+                        <th className="border border-[#EAEAEA] border-b-[#D8D8D8] border-r-white p-2 text-[#232323]">Score</th>
+                        <th className="border border-[#EAEAEA] border-b-[#D8D8D8] border-r-white p-2 text-[#232323]">Initiated By</th>
+                        <th className="border border-[#EAEAEA] border-b-[#D8D8D8] border-r-white p-2 text-[#232323]">Initiated On</th>
+                        <th className="border border-[#EAEAEA] border-b-[#D8D8D8] border-r-white p-2 text-[#232323]">Comments</th>
+                        <th className="border border-[#EAEAEA] border-b-[#D8D8D8] p-2 text-[#232323]">Status</th>
                       </tr>
                     </thead>
                     <tbody>
                       {selectedVendor.history.map((entry, index) => (
                         <tr key={index} className="text-center bg-white hover:bg-gray-100 transition">
-                          <td className="border border-gray-400 p-2">{entry.year}</td>
-                          <td className={`border border-gray-400 p-2 ${getScoreClass(entry.score)}`}>{entry.score}</td>
-                          <td className="border border-gray-400 p-2">{entry.initiatedBy}</td>
-                          <td className="border border-gray-400 p-2">{entry.initiatedOn}</td>
-                          <td className="border border-gray-400 p-2">{entry.comments}</td>
-                          <td className="border border-gray-400 p-2">{entry.status}</td>
+                          <td className="border border-gray-400 p-2 text-[#232323]">{entry.year}</td>
+                          <td className={`border border-gray-400 p-2 text-[#232323] ${getScoreClass(entry.score)}`}>{entry.score}</td>
+                          <td className="border border-gray-400 p-2 text-[#232323]">{entry.initiatedBy}</td>
+                          <td className="border border-gray-400 p-2 text-[#232323]">{entry.initiatedOn}</td>
+                          <td className="border border-gray-400 p-2 text-[#232323]">{entry.comments}</td>
+                          <td className="border border-gray-400 p-2 text-[#232323]">{entry.status}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -116,17 +116,17 @@ const Initiate: React.FC = () => {
                 </div>
               </div>
               <div className="flex justify-end space-x-3 mt-5">
-                <span className="bg-green-600 text-black p-2 rounded-lg shadow-md">&lt; 25 points</span>
-                <span className="bg-amber-500 text-black p-2 rounded-lg shadow-md">26 - 50 points</span>
-                <span className="bg-red-600 text-black p-2 rounded-lg shadow-md">&gt; 50 points</span>
+                <span className="bg-[#66DB5D] text-black p-2 rounded-lg shadow-md">&lt; 25 points</span>
+                <span className="bg-[#FFCA65] text-black p-2 rounded-lg shadow-md">26 - 50 points</span>
+                <span className="bg-[#DB4734] text-black p-2 rounded-lg shadow-md">&gt; 50 points</span>
               </div>
             </div>
-            <div className="w-1/3 bg-white p-5 shadow-md rounded-lg">
-              <h3 className="font-semibold text-base mb-2">Latest About the Vendor</h3>
+            <div className="w-1/3 bg-[#F9F9F9] p-5 shadow-md rounded-lg">
+              <h3 className="font-semibold text-base mb-2 text-[#777777]">Latest About the Vendor</h3>
               {selectedVendor.latestUpdates.map((update, index) => (
                 <div key={index} className="flex items-center space-x-2 mt-3">
-                  <span className={update.isCritical ? "text-red-600 text-lg" : "text-orange-500 text-lg"}><GoAlertFill /></span>
-                  <span className={update.isCritical ? "text-red-600 font-semibold" : ""}>{update.text}</span>
+                  <span className={update.isCritical ? "text-red-600 text-lg" : "text-[#AF531A] text-lg"}><GoAlertFill /></span>
+                  <span className={update.isCritical ? "text-[#AF531A] font-semibold" : "text-[#6C6565]"}>{update.text}</span>
                 </div>
               ))}
             </div>

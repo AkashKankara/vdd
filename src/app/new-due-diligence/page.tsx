@@ -31,41 +31,41 @@ const NewDueDiligence: React.FC = () => {
 console.log(activeStep);
   return (
     <div className="bg-white min-h-screen flex flex-col pl-14 pt-14">
-<<<<<<< Updated upstream
-      <StatusBar activeStep={activeStep} setActiveStep={setActiveStep} />
-        <div className="w-full max-w-screen-xl px-12 mt-8 flex justify-between">
-          <button className="px-4 py-2 border border-gray-400 rounded-md text-gray-600 hover:bg-gray-200">
-=======
-      
       <StatusBar activeStep={activeStep} setActiveStep={setActiveStep} activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="w-full max-w-screen-xl px-12 mt-8 flex justify-end p-4 border-t border-[#D8D8D8]">
           <button className="px-4 rounded-md m-2 text-[#026FE9] hover:bg-gray-200">
->>>>>>> Stashed changes
             Cancel
           </button>
-          <div className="flex space-x-4">
-            <button className="px-4 py-2 border border-blue-600 rounded-md text-blue-600 hover:bg-blue-200">
+          <button className="px-4 py-2 m-2 border border-[#026FE9] rounded-md text-[#026FE9] hover:bg-blue-200">
               Save
+          </button>
+          {activeStep !== "Initiate" && (
+            <button
+              className="flex items-center bg-[#026FE9] text-white px-4 py-2 m-2 rounded-lg"
+              onClick={handleBack}
+            >
+              <FaAngleLeft className="mr-1" />
+              <span>Back</span>
             </button>
-            {activeStep !== "Initiate" && (
-              <button
-                className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg"
-                onClick={handleBack}
-              >
-                <FaAngleLeft className="mr-1" />
-                <span>Back</span>
-              </button>
-            )}
-            {activeStep !== "Finalize" && (
-              <button
-                className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg"
-                onClick={handleNext}
-              >
-                <span>Next</span>
-                <FaAngleRight className="ml-1" />
-              </button>
-            )}
-          </div>
+          )}
+          {activeStep !== "Finalize" && (
+            <button
+              className="flex items-center bg-[#026FE9] text-white px-4 py-2 m-2 rounded-lg"
+              onClick={handleNext}
+            >
+              <span>Next</span>
+              <FaAngleRight className="ml-1" />
+            </button>
+          )}
+          {activeStep == "Finalize" && (
+            <button
+              className="flex items-center bg-[#026FE9] text-white px-4 py-2 m-2 rounded-lg"
+              onClick={handleNext}
+            >
+              <span>Approve</span>
+            </button>
+          )}
+
         </div>
     </div>
   );
