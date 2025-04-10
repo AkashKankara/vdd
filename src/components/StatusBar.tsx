@@ -18,21 +18,10 @@ interface Step {
   component: React.ReactElement;
 }
 
-<<<<<<< Updated upstream
-const steps: Step[] = [
-  { name: "Initiate", icon: <FaInfoCircle size={14} />, component: <Initiate/> },
-  { name: "Data Capture", icon: <FaBug size={14} />, component: <DataCapture/> },
-  { name: "Assess", icon: <FaShieldAlt size={14} />, component: <Assess/> },
-  { name: "Review", icon: <FaClipboardCheck size={14} />, component: <Review/> },
-  { name: "Finalize", icon: <FaUserCheck size={14} />, component: <Review/> },
-];
-=======
 interface AssessProps {
   activeTab: string;
   setActiveTab: (step: string) => void;
 }
->>>>>>> Stashed changes
-
 type Props = StatusBarProps & AssessProps;
 const StatusBar: React.FC<Props> = ({ activeStep, setActiveStep, activeTab, setActiveTab }) => {
   // const [activeTab, setActiveTab] = useState('summary');

@@ -12,6 +12,11 @@ const NewDueDiligence: React.FC = () => {
   const router = useRouter();
   const [activeStep, setActiveStep] = useState("Initiate");
   const [activeTab, setActiveTab] = useState('summary');
+  const scrollToTop = () => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
   const handleNext = () => {
     if (activeStep === "Initiate") setActiveStep("Data Capture");
     if (activeStep === "Data Capture") setActiveStep("Assess");
@@ -51,7 +56,7 @@ console.log(activeStep);
           {activeStep !== "Finalize" && (
             <button
               className="flex items-center bg-[#026FE9] text-white px-4 py-2 m-2 rounded-lg"
-              onClick={handleNext}
+              onClick={() => {handleNext(); scrollToTop(); }}
             >
               <span>Next</span>
               <FaAngleRight className="ml-1" />

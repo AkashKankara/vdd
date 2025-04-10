@@ -379,7 +379,7 @@ function VendorTable() {
   
         {showFilter && (
           <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            className="fixed inset-0 bg-black/20 z-40"
             onClick={() => setShowFilter(false)} // Clicking the overlay closes the panel
           >
             {/* Filter Panel */}
@@ -500,7 +500,7 @@ function VendorTable() {
       <div className="mt-1"></div>
   
       {/* Table Container */}
-      <div className="overflow-y-auto max-h-[60vh] border-t">
+      <div className="overflow-y-auto max-h-[60vh] ">
     <table className="w-full text-xs border-collapse">
       <thead className="bg-gray-200 text-center sticky top-0">
         <tr>
@@ -525,7 +525,7 @@ function VendorTable() {
       </thead>
       <tbody>
         {filteredVendors.map((vendor, index) => (
-          <tr key={index}  className={`border-b hover:bg-blue-100 
+          <tr key={index}  className={` hover:bg-blue-100 
             ${vendor.status === "Blocked" ? "bg-gray-200" : index % 2 === 0 ? "bg-white" : "bg-gray-100"}`}>
             <td className="p-1 border-r-[1.5px] border-gray-300 text-center">
   <div className="flex justify-center items-center">

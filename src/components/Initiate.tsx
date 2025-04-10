@@ -86,7 +86,7 @@ const Initiate: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-white p-5">
+              <div className="bg-white p-2">
                 <h2 className="text-lg font-semibold mb-3">Due Diligence History</h2>
                 <div className="overflow-x-auto">
                   <table className="w-full border border-gray-400 shadow-md rounded-lg">
@@ -115,7 +115,7 @@ const Initiate: React.FC = () => {
                   </table>
                 </div>
               </div>
-              <div className="flex justify-end space-x-3 mt-5">
+              <div className="flex justify-end space-x-3 mt-2">
                 <span className="bg-[#66DB5D] text-black p-2 rounded-lg shadow-md">&lt; 25 points</span>
                 <span className="bg-[#FFCA65] text-black p-2 rounded-lg shadow-md">26 - 50 points</span>
                 <span className="bg-[#DB4734] text-black p-2 rounded-lg shadow-md">&gt; 50 points</span>
