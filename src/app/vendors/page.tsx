@@ -203,10 +203,6 @@ const noRiskCount = vendors.filter((v) => v.ddRank === "Low Risk").length;
 const mediumRiskCount = vendors.filter((v) => v.ddRank === "Medium Risk").length;
 const highRiskCount = vendors.filter((v) => v.ddRank === "High Risk").length;
 
-const searchParams = useSearchParams();
-const type = searchParams.get("type");
-const filtered = basevendors.filter(v => v.type === type);
-
 const handleFilter = (risk: string) => {
   setSelectedRisk(risk);
 
@@ -304,6 +300,16 @@ const applyFilters = (overrideFilters?: {
   setShowFilter(false);
 };
 
+const searchParams = useSearchParams();
+const typeFromURL = searchParams.get("type");
+useEffect(() => {
+  if (typeFromURL) {
+    // Apply filters using the URL param directly
+    applyFilters({ vendorTypes: [typeFromURL] });
+  // } else {
+  //   applyFilters(); // Apply normal filters on page load
+  }
+}, [typeFromURL]); // Re-run if URL param changes
 
 //PaginationNoChange
 const itemsPerPage = 100 // Limit the view to 100 vendors per page
@@ -334,7 +340,7 @@ const [selectedFilters, setSelectedFilters] = useState<Filter[]>([]);
 const handleApplyFilters = () => {
   setFiltersApplied(true); // This flag lets you show chips + hide risk tabs
   setShowFilter(false);    // Close filter panel
-  applyFilters();          // Apply actual filter logic (you should include this!)
+  applyFilters();         // Apply actual filter logic (you should include this!)
 };
 
 const cancelFilters = () => {
@@ -478,7 +484,7 @@ return (
       </div>
 
       {showFilter && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 z-40"   onClick={() => setShowFilter(false)} // Clicking the overlay closes the panel
+  <div className="fixed inset-0 bg-black/20 z-40"   onClick={() => setShowFilter(false)} // Clicking the overlay closes the panel
   >
     {/* Filter Panel */}
     <div className="fixed top-0 right-0 bg-white w-80 h-full shadow-lg p-5 z-50 font-sans"  onClick={(e) => e.stopPropagation()} // Prevents closing when clicking inside the panel
@@ -626,7 +632,7 @@ return (
     <div className="mt-1"></div>
 
     {/* Table Container */}
-    <div className="overflow-y-auto max-h-[60vh] border-t">
+    <div className="overflow-y-auto max-h-[60vh]">
   <table className="w-full text-xs border-collapse">
     <thead className="bg-gray-200 text-center sticky top-0">
       <tr>
@@ -646,7 +652,7 @@ return (
     </thead>
     <tbody>
       {filteredVendors.map((vendor, index) => (
-        <tr key={index}  className={`border-b hover:bg-blue-100 
+        <tr key={index}  className={`hover:bg-blue-100 
           ${vendor.status === "Blocked" ? "bg-gray-200" : index % 2 === 0 ? "bg-white" : "bg-gray-100"}`}>
           <td className={`p-1 border-r-[1.5px] border-gray-200 ${vendor.status === "Blocked" ? "text-gray-600" : "text-blue-500"}`}>
             {vendor.name}
@@ -687,7 +693,7 @@ return (
 </div>
 
 {/* Pagination Bar */}
-<div className="flex justify-between items-center p-2 border-t bg-white">
+<div className="flex justify-between items-center p-2 bg-white">
   {/* Left: Showing X-Y of N items */}
   <span className="text-gray-600 text-xs">
     {`${(currentPage - 1) * itemsPerPage + 1} - ${Math.min(
@@ -746,7 +752,7 @@ return (
 
 function NewVendorModal({ onClose }: { onClose: () => void }) {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-20">
+    <div className="fixed inset-0 bg-black/20 flex justify-center items-center z-20">
       <div className="bg-white p-4 rounded-lg w-2/3 max-w-xl">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-lg font-bold pl-4">New Vendor</h2>
