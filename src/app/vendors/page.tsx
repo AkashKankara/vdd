@@ -302,14 +302,25 @@ const applyFilters = (overrideFilters?: {
 
 const searchParams = useSearchParams();
 const typeFromURL = searchParams.get("type");
+const riskFromURL = searchParams.get("rank");
 useEffect(() => {
+  const filtersToApply: {
+    vendorTypes?: string[];
+    rankRisk?: string[];
+  } = {};
+
   if (typeFromURL) {
-    // Apply filters using the URL param directly
-    applyFilters({ vendorTypes: [typeFromURL] });
-  // } else {
-  //   applyFilters(); // Apply normal filters on page load
+    filtersToApply.vendorTypes = [typeFromURL];
   }
-}, [typeFromURL]); // Re-run if URL param changes
+
+  if (riskFromURL) {
+    filtersToApply.rankRisk = [riskFromURL];
+  }
+
+  if (typeFromURL || riskFromURL) {
+    applyFilters(filtersToApply);
+  }
+}, [typeFromURL, riskFromURL]);
 
 //PaginationNoChange
 const itemsPerPage = 100 // Limit the view to 100 vendors per page

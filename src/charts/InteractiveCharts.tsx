@@ -93,6 +93,9 @@ const InteractiveCharts: React.FC = () => {
   const handleVendorClick = (type: string) => {
     router.push(`/vendors?type=${type}`);
   };
+  const handleRiskClick = (rank: string) => {
+    router.push(`/vendors?rank=${rank}`);
+  }
   return (
 
     <Grid container spacing={2}>
@@ -127,7 +130,7 @@ const InteractiveCharts: React.FC = () => {
             <Box mt={2}>
               {riskData.map((risk, index) => (
                 <Typography key={index} variant="body2" sx={{ mb: 0.8 }}>
-                  <span style={{ color: risk.color, fontWeight: "bold" }}>{risk.name}: </span>
+                  <span style={{ color: risk.color, fontWeight: "bold" }} onClick={() => handleRiskClick(risk.name.includes("No") ? "Low" : risk.name.includes("Medium") ? "Medium" : "High")} >{risk.name}: </span>
                   <span style={{ fontWeight: "bold" }}>{risk.value}</span>
                   <span style={{ fontSize: "0.8rem", marginLeft: 5 }}><IoCaretDown size={10} color="#B40101" /></span>
                 </Typography>
@@ -152,7 +155,7 @@ const InteractiveCharts: React.FC = () => {
                       sx={{
                         backgroundColor: vendor.color,
                         color: "white",
-                        px: 2,
+                        px: 1,
                         py: 0.5,
                         borderRadius: "5px",
                         display: "inline-block",
